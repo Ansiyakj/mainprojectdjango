@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if not wish %}
+<div>
+    <img src="{% static 'images/carti.png' %}" width="400" height="350"  style="margin-left:580px;">
+    <h1 class="text-center text-success">Wishlist is Empty !</h1>
+    <h4 class="text-center text-success">Add something to make me happy :)</h4>
+
+
+
+    <strong><a class=" btn btn-success text-white mt-2" style="margin-left:680px;" href="{% url 'shop:category' %}">Continue Shopping</a></strong>
+</div>
+{% else %}
+<div class="container-fluid" style="margin-bottom:100px;">
+<div class="row">
+    <h3 class="text-center text-success mt-3" style="text-shadow: 2px 2px 5px green;">My wishlist</h3>
+
+    <div class="col-sm-8" style="margin-left:250px;"><table class="table table-bordered mt-3" style="text-align:center;border:2px solid green;box-shadow: 10px 10px 5px lightgreen;">
+        <tr><th colspan="5" class="text-center text-success"><i class="fa-solid fa-heart"></i> WISHLIST</th></tr>
+        <th colspan="1" class="text-center text-success">Product</th>
+        <th colspan="1" class="text-center text-success">Name</th>
+        <th colspan="1" class="text-center text-success">Price</th>
+<!--        <th colspan="1" class="text-center text-success">Quantity</th>-->
+
+        <th colspan="1" class="text-center text-success"></th>
+
+        </tr>
+ {% for i in wish %}
+        <tr>
+            <td><img src="{{i.product.image.url}}" height="100px" width="100px"></td>
+            <td><p class="text-success"><strong>{{i.product.pname}}</strong></p></td>
+<!--            <td><p class="text-success"><strong>Product Id:{{i.product.id}}</strong></p>-->
+             <td><p class="text-success"><strong>Rs.{{i.product.price}}</strong></p>
+<!--            <td><p class="text-success"><strong>{{i.quantity}}</strong></p></td>-->
+
+             <td>
+            {% if i.product.stock <= 0 %}
+            <p class="text-success">OUT OF STOCK</p>
+            {% else %}
+            <a href="{% url 'cart:add_to_cart' i.product.pname %}" class="btn btn-success mt-4"><i class="fa-solid fa-cart-shopping"></i> ADD TO CART</a>
+            {% endif %}
+            </td>
+            <td><a href="{% url 'cart:wish_full_remove' i.product.pname %}"><i class="fa-solid fa-trash mt-4" style="color:green;margin-left:10px;"></i></a>
+        </td>
+            </td>
+
+
+        </tr>
+
+{% endfor %}
+
+    </table></div>
+
+    {% endif %}
+    </div>
+</div>
+    {% endblock %}

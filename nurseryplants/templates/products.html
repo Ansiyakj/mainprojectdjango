@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    #example2 {
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 5px 8px lightgreen, 10px 10px 8px red, 15px 15px 8px green;
+  margin: 20px;
+}
+#example1{
+box-shadow: 10px 10px 5px green inset;
+}
+.checked {
+  color: orange;
+}
+</style>
+<div id="example2"  style="border-color:green;">
+    <img src="{{category.image.url}}" height="450" width="100%">
+</div><center>
+    <div class="container">
+<div><h1 class="text-success mt-5 text-uppercase">{{category.cname}}</h1>
+     <h4 class="text-success mt-2" style="text-align:justify;line-height:1.5;">{{category.description}}</h4></div>
+</div></center>
+<!--<div class="container-fluid mt-2" style="margin-bottom:60px;">-->
+<!--    <h3 class="text-center mb-2 text-white text-uppercase">{{category.cname}}</h3>-->
+<!--    <p class="text-success" style="text-align:justify;line-height:1.5;">{{category.description}}</p>-->
+<!--</div>-->
+
+<div class="container-fluid mt-2" style="margin-bottom:100px;">
+        <div class="row">
+            {% for i in p %}
+            <div class="col-sm-3" style="height:450px;margin-left:8%;width:14%">
+
+                <div id="example2" class="card"  style="width: 17rem;">
+            <img src="{{i.image.url}}" class="card-img-top" height="150px" width="100%" alt="...">
+
+  <div class="card-body">
+    <h5 class="card-title text-center">{{i.pname}}</h5>
+    <p class="card-text text-center">RS.{{i.price}}</p>
+      <span class="ms-5 pb-3 fa fa-star checked"></span>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star"></span>
+       <span class="fa fa-star"></span><br>
+    <a href="{% url 'shop:detail' i.pname %}" style="position:relative;left:30%;" class="btn btn-success">DETAILS</a>
+  </div>
+</div>
+       </div>
+         {% endfor %}
+
+      </div>
+</div>
+{% endblock %}

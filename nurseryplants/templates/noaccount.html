@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container" style="background-image: linear-gradient(white, lightgreen, green);border-radius:25px;text-shadow: 2px 2px 5px green;">
+    <h3 class="text-center text-success mt-5">{{msg}}!</h3>
+
+    <p class="text-center"><a class="text-white btn btn-success mb-3" style="margin-left:10px;" href="{% url 'cart:orderform' %}">Try Again</a></p>
+
+</div>
+<div class="container" style="margin-left:600px;"><img src="{% static 'images/giphy.gif' %}" height="200px" width="250px"></div>
+
+{% endblock %}

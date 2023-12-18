@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .v1
+  {
+  border-left: 6px solid green;
+  height: 450px;
+}
+</style>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-5">
+            <img src="{{d.image.url}}" height="400px" width="370px">
+        </div>
+        <!--vertical border--->
+        <div class="v1 col-sm-1" >
+
+        </div>
+        <!---details--->
+        <div class="col-sm-5 mt-3">
+          <h3 class="text-uppercase text-success mb-3">{{d.pname}}</h3>
+            <h5 class="text-success mb-3"><b>Product Description</b></h5>
+            <p class="text-success mb-2" style="text-align:justify;line-height:2">{{d.description}}</p>
+
+            <tr>
+                <td><p class="text-success mb-2"><strong>Light Requirement : {{d.light}}</strong></p></td>
+                <td><p class="text-success mb-2"><strong>Watering Schedule : {{d.schedule}}</strong></p></td>
+
+            </tr>
+            <h5 class="text-success">RS.{{d.price}}</h5>
+            {% if user.is_superuser != True %}
+            {% if d.stock <= 0 %}
+            <h4 class="text-success mt-2" >OUT OF STOCK</h4>
+            <a href="{% url 'cart:add_wishlist' d.pname %} " class="btn btn-success mt-4" style="margin-left:5px;"><i class="fa-solid fa-heart"></i> ADD TO WISHLIST</a>
+            {% else %}
+            <a href="{% url 'cart:add_to_cart' d.pname %}" class="btn btn-success mt-4"><i class="fa-solid fa-cart-shopping"></i> ADD TO CART</a>
+            <a href="{% url 'cart:add_wishlist' d.pname %} " class="btn btn-success mt-4" style="margin-left:20px;"><i class="fa-solid fa-heart"></i> ADD TO WISHLIST</a>
+
+            {% endif %}
+            {% else %}
+            {% if d.stock <= 0 %}
+            <a href="{% url 'admin:index' %}" class="btn btn-success mt-4">ADD STOCK</a>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

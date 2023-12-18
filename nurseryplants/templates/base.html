@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Libre+Baskerville:ital@1&family=Roboto:ital@0;1&family=Tektur:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+<!--<div class="container-fluid" style="background-color:lightgreen;height:50px;">-->
+
+
+
+<!--   <marquee  class="text-warning mt-2" style="font-size:18px;">Limited Period Offers... Grab yours Now !!</marquee>-->
+
+<!--  <i class="fa-brands fa-facebook text-white text-center mb-1 " style="font-size:20px;"></i>-->
+<!--    <i class="fa-brands fa-instagram text-white mb-1  ms-2" style="font-size:20px;"></i>-->
+<!--    <i class="fa-brands fa-pinterest text-white mb-1  ms-2" style="font-size:20px;"></i>-->
+
+<!--    </div>-->
+ <nav class="navbar navbar-expand-lg navbar-light  mt-1" style="background-color:green">
+  <div class="container-fluid">
+      <img src="{% static 'images/leafylogo.png' %}" height="70px" width="90px" style="border-radius:50%;">
+      <a class="navbar-brand ms-3" href="#"> LEAFY HEAVEN</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'shop:category' %}">Home</a>
+        </li>
+
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Our Plants
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+               {% for i in links %}
+            <li><a class="dropdown-item" href="{% url 'shop:allproducts' i.cname %}">{{i.cname}}</a></li>
+             {% endfor %}
+          </ul>
+        </li>
+
+
+
+
+<!--          <li class="nav-item">-->
+<!--          <a class="nav-link" aria-current="page" href="">Your Orders</a>-->
+<!--        </li>-->
+
+
+              {% if user.is_authenticated %}
+
+           <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'shop:logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i>  Logout</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-uppercase" aria-current="page" href="">WELCOME {{user.username}}</a>
+        </li>
+          {% if user.is_superuser != True %}
+          <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'cart:order_view' %}">Your Orders</a>
+        </li>
+
+          <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'cart:cart_view' %}" style="margin-left:150px;"><i class="fa-solid fa-cart-shopping"></i> {{count}}</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'cart:wish_view' %}" style="margin-left:20px;"><i class="fa-solid fa-heart"></i></a>
+
+        </li>
+           {% endif %}
+          {% else %}
+          <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'shop:register' %}">Register</a>
+        </li>
+
+          <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'shop:login' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Login</a>
+        </li>
+          {% endif %}
+
+
+
+      </ul>
+      <form class="d-flex" method="POST" action="{% url 'search:searchresult' %}">
+          {% csrf_token %}
+        <input class="form-control me-2" type="search"  name="q" placeholder="Search Your Plants" aria-label="Search">
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+{% block content %}
+{% endblock %}
+
+
+
+
+<footer>
+    <div class="footer">
+        <p class="pt-1"><i class="fa-regular fa-copyright"></i>LeafyHeaven Private Limited.All Rights Reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

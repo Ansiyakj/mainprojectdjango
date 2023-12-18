@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if not order %}
+<div class="container " style="background-image: linear-gradient(white, lightgreen, yellow);">
+    <h3 class="text-center text-success mt-5 mb-3" style="text-shadow: 2px 2px 5px green;">No Orders Yet !!</h3>
+{% else %}
+<div class="container" style="margin-bottom:100px;">
+    <div class="row">
+        <h5 class="text-center mb-3 text-uppercase text-success mt-4"><strong>Your order summary {{u}}</strong></h5>
+
+
+        {% for order in order %}
+        <div class="col-sm-2 py-3 text-center" style="border:2px solid green">
+
+            <img src="{{order.product.image.url}}" height="150px" width="150px"></div>
+        <div class="col-sm-2 text-center pt-4" style="border:2px solid green">Product:{{order.product.pname}}<br>
+            Price:{{order.product.price}}<br></div>
+        <div class="col-sm-4 text-center pt-4" style="border:2px solid green">
+            Delivery Address:{{order.place}}<br>
+            Phone Number:{{order.phone}}<br>
+
+             Quantity ordered:{{order.no_of_items}}<br>
+            Subtotal:{{order.subtotal}}<br>
+
+            <strong>Ordered on:{{order.date_added}}</strong><br>
+           <strong class="text-success">Delivery Status:{{order.delivery_status}}</strong>
+
+        </div>
+
+        <div class="col-sm-1 text-center pt-4" style="border:2px solid green"><strong>Grand Total:{{order.grandtotal}}</strong></div>
+        <div class="col-sm-2 text-center pt-4" style="border:2px solid green"><strong class="text-success">Order Status:{{order.order_status}}</strong></div>
+
+
+
+        {% if order.grandtotal > 3000 %}
+        {% for i in gift %}
+        <div class="col-sm-1 pt-2" style="border:2px solid green"><img src="{{i.image.url}}" height="100px" width="90px"><span class="text-success">{{i.gname}}</span></div>
+        {% endfor %}
+        {% endif %}
+
+
+        {% endfor %}
+
+
+   </div>
+</div>
+{% endif %}
+
+</div>
+
+{% endblock %}

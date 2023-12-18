@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if not cart %}
+<div>
+    <img src="{% static 'images/carti.png' %}" width="400" height="350"  style="margin-left:580px;">
+    <h1 class="text-center text-success">Cart is Empty !</h1>
+    <h4 class="text-center text-success">Add something to make me happy :)</h4>
+
+
+
+    <strong><a class=" btn btn-success text-white mt-2" style="margin-left:680px;" href="{% url 'shop:category' %}">Continue Shopping</a></strong>
+</div>
+{% else %}
+<div class="container-fluid" style="margin-bottom:100px;">
+<div class="row">
+    <h3 class="text-center text-success mt-3" style="text-shadow: 2px 2px 5px green;"><i class="fa-solid fa-cart-shopping"></i>  Shopping Cart</h3>
+
+    <div class="col-sm-8"><table class="table table-bordered mt-3" style="text-align:center;border:2px solid green;">
+        <tr><th colspan="5" class="text-center text-success">CART ITEMS  <i class="fa-solid fa-bag-shopping"></i></th></tr>
+        <th colspan="1" class="text-center text-success">Product</th>
+        <th colspan="1" class="text-center text-success">Name</th>
+        <th colspan="1" class="text-center text-success">Price</th>
+        <th colspan="1" class="text-center text-success">Subtotal</th>
+        <th colspan="1" class="text-center text-success">Quantity</th>
+        </tr>
+        {% for i in cart %}
+        <tr>
+            <td><img src="{{i.product.image.url}}" height="100px" width="100px"></td>
+            <td><p class="text-success"><strong>{{i.product.pname}}</strong></p></td>
+<!--            <td><p class="text-success"><strong>Product Id:{{i.product.id}}</strong></p>-->
+             <td><p class="text-success"><strong>Rs.{{i.product.price}}</strong></p>
+              <p class="text-success"><strong>Quantity :{{i.quantity}}</strong></p> </td>
+            <td><p class="text-success"><strong>Rs.{{i.subtotal}}</strong></p></td>
+
+            <td>
+                {% if i.quantity < i.product.stock %}
+
+                <a href="{% url 'cart:add_to_cart' i.product.pname %}"><i class="fa-solid fa-circle-plus" style="color:green;margin:8px;"></i></a>
+                <a href="{% url 'cart:cart_remove' i.product.pname %}"><i class="fa-solid fa-circle-minus" style="color:green;margin:8px;"></i></a>
+
+                <a href="{% url 'cart:full_remove' i.product.pname %}"><i class="fa-solid fa-trash" style="color:green;margin:8px;"></i></a>
+                {% else %}
+                <a href="{% url 'cart:cart_remove' i.product.pname %}"><i class="fa-solid fa-circle-minus" style="color:green;margin:8px;"></i></a>
+                <a href="{% url 'cart:full_remove' i.product.pname %}"><i class="fa-solid fa-trash" style="color:green;margin:8px;"></i></a>
+                {% endif %}
+
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table></div>
+
+    <div class="col-sm-4">
+
+        <table class="table table-bordered mt-3" style="border:2px solid green;">
+        <tr><th class="text-center">CHECK OUT</th></tr>
+            <tr>
+                <td><strong class="ps-2">Amount </strong><span style="margin-left:300px;">Rs.{{Total}}</span></td></tr>
+            <tr><td ><strong class="ps-2">Shipping Charge </strong><span style="margin-left:240px;"> Rs.50.00</span></td></tr>
+            <tr><td ><strong class="ps-2">Grand Total</strong> <span style="margin-left:270px;">Rs.{{Grant}}</span></td></tr>
+
+         {% for i in cart %}
+        {% if i.subtotal > 3000 %}
+        <tr>
+            {% for i in gift %}
+            <td><img src="{{i.image.url}}" height="100px" width="100px"><span  style="margin-left:10px;">{{i.gname}}</span>
+            <span class="animate-charcter" style="margin-left:140px;">FREE GIFT !</span></td>
+            {% endfor %}
+        </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+
+       <div style="position:relative;"> <a class=" btn btn-success text-white" href="{% url 'cart:orderform' %}">PLACE ORDER</a>
+        <a class=" btn btn-success text-white" style="position:absolute;right:0;" href="{% url 'shop:category' %}">CONTINUE SHOPPING</a></div>
+    </div>
+
+</div>
+
+    </div>
+{% endif %}
+{% endblock %}
